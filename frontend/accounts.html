@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contas conectadas — FinanceFlow MP</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="page-wrap">
+    <div class="page-header">
+      <h1>Gerenciar contas do Mercado Pago</h1>
+      <button class="btn btn-secondary" onclick="window.location.href='index.html'">Voltar ao painel</button>
+    </div>
+
+    <p class="auth-switch" id="oauth-feedback" style="display:none; text-align:left; margin-bottom:16px;"></p>
+
+    <button class="btn btn-primary" style="width:auto; margin-bottom: 22px;" onclick="connectNewAccount()">
+      + Conectar nova conta
+    </button>
+
+    <p style="font-size:13.5px; color:var(--text-muted); margin-top:-12px; margin-bottom:18px;">
+      Contas ativas (<span id="accounts-count">0</span>)
+    </p>
+
+    <div id="accounts-list"></div>
+
+    <div class="guide">
+      <h2>Como funciona a conexao?</h2>
+      <ol>
+        <li>Clique no botao acima "+ Conectar nova conta".</li>
+        <li>Voce sera redirecionado para a pagina oficial do Mercado Pago.</li>
+        <li>Faca login com sua conta (se necessario) e clique em "Autorizar".</li>
+        <li>Pronto — voce volta para este painel e suas transacoes comecam a sincronizar.</li>
+      </ol>
+      <div class="security-note">
+        Nunca solicitamos sua senha do Mercado Pago. O acesso e feito via autorizacao
+        oficial e segura (OAuth 2.0), e voce pode revogar o acesso a qualquer momento
+        em
+        <a href="https://www.mercadopago.com.br/my-account/applications" target="_blank" rel="noopener">
+          mercadopago.com.br/my-account/applications
+        </a>.
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/accounts.js"></script>
+</body>
+</html>

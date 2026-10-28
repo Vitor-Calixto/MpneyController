@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — FinanceFlow MP</title>
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="js/theme.js"></script>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">FinanceFlow MP</span>
+    </div>
+
+    <nav class="nav">
+      <a href="index.html" class="active">Dashboard</a>
+      <a href="#">Transacoes</a>
+      <a href="accounts.html">Contas conectadas</a>
+      <a href="#">Metas</a>
+      <a href="#">Relatorios</a>
+      <a href="#">Configuracoes</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <span id="user-greeting"></span>
+      <button class="theme-toggle" onclick="toggleTheme()">Tema</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="header">
+      <h1>Dashboard</h1>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <select id="account-select" class="account-select">
+          <option value="">Todas as contas</option>
+        </select>
+        <button class="btn btn-secondary" onclick="logout()">Sair</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="metrics">
+        <div class="metric-card income">
+          <div class="metric-label">Entradas</div>
+          <div class="metric-value num" id="metric-income">R$ 0,00</div>
+        </div>
+        <div class="metric-card expense">
+          <div class="metric-label">Saidas</div>
+          <div class="metric-value num" id="metric-expense">R$ 0,00</div>
+        </div>
+        <div class="metric-card balance">
+          <div class="metric-label">Saldo liquido</div>
+          <div class="metric-value num" id="metric-balance">R$ 0,00</div>
+        </div>
+      </section>
+
+      <section class="panels">
+        <div class="panel">
+          <h2>Fluxo de caixa</h2>
+          <canvas id="cashFlowChart"></canvas>
+        </div>
+        <div class="panel">
+          <h2>Por categoria</h2>
+          <canvas id="categoryChart"></canvas>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Transacoes recentes</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Descricao</th>
+              <th>Categoria</th>
+              <th>Status</th>
+              <th style="text-align:right;">Valor</th>
+            </tr>
+          </thead>
+          <tbody id="transactions-body"></tbody>
+        </table>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

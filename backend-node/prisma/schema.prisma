@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  accounts ConnectedAccount[]
+  goals    Goal[]
+
+  @@map("users")
+}
+
+model ConnectedAccount {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  accountLabel   String   @map("account_label")
+  mpUserId       String   @map("mp_user_id")
+  mpEmail        String   @map("mp_email")
+  accessToken    String   @map("access_token")
+  refreshToken   String   @map("refresh_token")
+  tokenExpiresAt DateTime @map("token_expires_at")
+  status         String   @default("ACTIVE") // ACTIVE | NEEDS_REAUTH | REVOKED
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+
+  @@map("connected_accounts")
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+  type String // INCOME | EXPENSE
+
+  transactions Transaction[]
+
+  @@map("categories")
+}
+
+model Transaction {
+  id              String   @id @default(uuid())
+  accountId       String   @map("account_id")
+  mpTransactionId String   @unique @map("mp_transaction_id")
+  description     String?
+  amount          Decimal  @db.Decimal(12, 2)
+  netAmount       Decimal  @map("net_amount") @db.Decimal(12, 2)
+  type            String // INCOME | EXPENSE
+  status          String // approved, pending, refunded...
+  categoryId      Int?     @map("category_id")
+  date            DateTime
+
+  account  ConnectedAccount @relation(fields: [accountId], references: [id])
+  category Category?        @relation(fields: [categoryId], references: [id])
+
+  @@map("transactions")
+}
+
+model Goal {
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  title         String
+  targetAmount  Decimal   @map("target_amount") @db.Decimal(12, 2)
+  currentAmount Decimal   @default(0) @map("current_amount") @db.Decimal(12, 2)
+  deadline      DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("goals")
+}
